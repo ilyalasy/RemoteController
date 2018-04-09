@@ -35,7 +35,9 @@ class Server:
         while True:
             request, self.client_address = self.s.recvfrom(4096)
             if request:
+                self.s.sendto(request, (self.client_address, self.port))
                 print("{} connected!".format(self.client_address))
+
                 break
 
     def enable_transfer(self):

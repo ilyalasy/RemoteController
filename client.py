@@ -13,9 +13,11 @@ class Client:
     def connect(self, server_ip):
         request = bytes("Request","utf-8")
         self.s.sendto(request, (server_ip, self.port))
-
-        self.connection = True
-        threading.Thread(target=self.receive_data()).start()
+        received, address = self.s.recvfrom(4096)
+        if received == request:
+            print("Connected to {}".format(server_ip))
+            self.connection = True
+            threading.Thread(target=self.receive_data).start()
 
     def receive_data(self):
         while self.connection:
@@ -24,6 +26,7 @@ class Client:
             self.control_mouse(pos)
 
     def disconnect(self):
+        print("Disconnected from the server")
         self.connection = False
 
     def control_mouse(self, position):
