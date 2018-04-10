@@ -51,11 +51,15 @@ class Server:
         self.transfer_mod = False
 
     def transfer_mouse(self):
+        previous_pos = (-1, -1)
         while self.transfer_mod:
             pos = pag.position()
-            data = pickle.dumps(pos)
 
-            self.s.sendto(data, self.client_address)
+            if pos != previous_pos:
+                data = pickle.dumps(pos)
+                self.s.sendto(data, self.client_address)
+
+            previous_pos = pos
 
     def close(self):
         self.disable_transfer()
