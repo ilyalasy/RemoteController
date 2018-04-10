@@ -35,7 +35,7 @@ class Server:
         while True:
             request, self.client_address = self.s.recvfrom(4096)
             if request:
-                self.s.sendto(request, (self.client_address, self.port))
+                self.s.sendto(request, self.client_address)
                 print("{} connected!".format(self.client_address))
 
                 break
